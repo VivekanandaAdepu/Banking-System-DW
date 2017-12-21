@@ -1,0 +1,176 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 28, 2017 at 07:59 PM
+-- Server version: 5.5.54-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.21
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `data_warehouse`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Account`
+--
+
+CREATE TABLE IF NOT EXISTS `Account` (
+  `Account_No` int(5) NOT NULL,
+  `Branch_No` int(5) NOT NULL,
+  `AccountType` char(12) NOT NULL,
+  `Balance` char(12) NOT NULL,
+  PRIMARY KEY (`Account_No`),
+  UNIQUE KEY `Account_No` (`Account_No`),
+  KEY `Branch_No` (`Branch_No`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Account`
+--
+
+INSERT INTO `Account` (`Account_No`, `Branch_No`, `AccountType`, `Balance`) VALUES
+(2, 9, 'Saving', '146.3'),
+(5, 4, 'Saving', '2489'),
+(7, 1, 'Checking', '1453'),
+(54, 9, 'Saving', '54896'),
+(94, 8, 'Checking', '1587');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Bank`
+--
+
+CREATE TABLE IF NOT EXISTS `Bank` (
+  `Code` int(5) NOT NULL,
+  `Name` char(32) NOT NULL,
+  `Street` varchar(32) NOT NULL,
+  `City` char(32) NOT NULL,
+  `State` char(32) NOT NULL,
+  `Zip` char(10) NOT NULL,
+  `Country` char(32) NOT NULL,
+  PRIMARY KEY (`Code`),
+  UNIQUE KEY `Code` (`Code`),
+  UNIQUE KEY `Name` (`Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Bank`
+--
+
+INSERT INTO `Bank` (`Code`, `Name`, `Street`, `City`, `State`, `Zip`, `Country`) VALUES
+(4, 'BOFA', 'Barton Creek', 'Charlotte', 'NC', '28262', 'USA'),
+(8, 'SEFQU', 'Cumberland Mall', 'Atlanta', 'Georgia', '30080', 'USA'),
+(9, 'PNB', '101 N Tryon', 'Charlotte', 'NC', '28262', 'USA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Bank_Branch`
+--
+
+CREATE TABLE IF NOT EXISTS `Bank_Branch` (
+  `Branch_No` int(5) NOT NULL,
+  `Address` char(32) NOT NULL,
+  `BranchCity` char(32) NOT NULL,
+  PRIMARY KEY (`Branch_No`),
+  UNIQUE KEY `Branch_No` (`Branch_No`),
+  UNIQUE KEY `Address` (`Address`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Bank_Branch`
+--
+
+INSERT INTO `Bank_Branch` (`Branch_No`, `Address`, `BranchCity`) VALUES
+(1, 'Skyland Blvd E', 'Tuscaloosa'),
+(4, 'Barton Creek', 'Charlotte'),
+(8, 'Cumberland Mall', 'Atlanta'),
+(9, '101 N Tryon', 'Charlotte');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Customer`
+--
+
+CREATE TABLE IF NOT EXISTS `Customer` (
+  `Customer_ID` int(15) NOT NULL,
+  `SSN` int(5) NOT NULL,
+  `First_Name` char(30) NOT NULL,
+  `Last_Name` varchar(30) NOT NULL,
+  `Phone` int(30) NOT NULL,
+  `Email` varchar(30) NOT NULL,
+  `Street` varchar(32) NOT NULL,
+  `City` char(32) NOT NULL,
+  `State` char(32) NOT NULL,
+  `Zip` char(10) NOT NULL,
+  `Country` char(32) NOT NULL,
+  PRIMARY KEY (`Customer_ID`),
+  UNIQUE KEY `SSN` (`SSN`),
+  UNIQUE KEY `Name` (`First_Name`),
+  UNIQUE KEY `Customer_ID` (`Customer_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Customer`
+--
+
+INSERT INTO `Customer` (`Customer_ID`, `SSN`, `First_Name`, `Last_Name`, `Phone`, `Email`, `Street`, `City`, `State`, `Zip`, `Country`) VALUES
+(128, 754123698, 'Charishma', 'Gurram', 980147856, 'cgurram@uncc.edu', '10005 Graduate Lane', 'Charlotte', 'NC', '28262', 'USA'),
+(143, 951753246, 'Charan', 'Pyreddy', 716416114, 'tejacharan75@gmail.com', '1216 Lincoln Trace Circle', 'Atlanta', 'Georgia', '30080', 'USA'),
+(169, 70456608, 'Hanisha', 'Marothu', 980636080, 'hanisham22@gmail.com', '9519 University Terrace Dr', 'Charlotte', 'NC', '28262', 'USA'),
+(875, 268417938, 'Puneeth', 'Devabaktuni', 714416158, 'puneethd@gmail.com', '9501 University Terrace Dr', 'Charlotte', 'NC', '28262', 'USA'),
+(1230, 10001234, 'Vivek', 'Adepu', 709053818, 'vadepu@uncc.edu', '430 Barton Creek', 'Charlotte', 'NC', '28262', 'USA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Loan`
+--
+
+CREATE TABLE IF NOT EXISTS `Loan` (
+  `Loan_No` int(5) NOT NULL,
+  `Branch_No` int(11) NOT NULL,
+  `LoanType` varchar(30) NOT NULL,
+  `Amount` int(5) NOT NULL,
+  PRIMARY KEY (`Loan_No`),
+  UNIQUE KEY `Loan_No` (`Loan_No`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Loan`
+--
+
+INSERT INTO `Loan` (`Loan_No`, `Branch_No`, `LoanType`, `Amount`) VALUES
+(3, 9, 'Home', 90000),
+(4, 8, 'Car', 9000),
+(6, 8, 'Personal', 15000),
+(7, 4, 'Car', 10000),
+(9, 4, 'Education', 30000);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Account`
+--
+ALTER TABLE `Account`
+  ADD CONSTRAINT `Account_ibfk_1` FOREIGN KEY (`Branch_No`) REFERENCES `Bank_Branch` (`Branch_No`) ON DELETE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
